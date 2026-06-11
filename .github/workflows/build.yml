@@ -1,0 +1,39 @@
+name: Build bundle
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build executable
+        run: |
+          mkdir -p dist
+          bun build ./src/index.ts \
+            --compile \
+            --outfile dist/plutoploy
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: plutoploy-linux
+          path: dist/plutoploy
