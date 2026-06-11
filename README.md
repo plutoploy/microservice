@@ -3,7 +3,12 @@
 A container deployment platform backend built with [Hono](https://hono.dev) + [Bun](https://bun.sh), wrapping [Podman](https://podman.io) via [`@pratyay360/podman-ts`](https://mintlify.wiki/Pratyay360/podman-ts).
 
 ## Prerequisites
+
+
+[api docs](https://registry.scalar.com/@default-team-7wkoc/apis/plutoploy-api@1.0.0#tag/routes)
+
 podman system service --time=0 &
+
 - [Bun](https://bun.sh) (latest)
 - [Podman](https://podman.io) with the socket enabled:
   ```bash
@@ -91,11 +96,11 @@ curl -X POST http://localhost:3000/api/pull \
   -d '{"image": "docker.io/library/nginx", "tag": "latest"}'
 ```
 
-| Field       | Type    | Required | Default  | Description                    |
-|-------------|---------|----------|----------|--------------------------------|
-| `image`     | string  | ✅       | —        | Full image name                |
-| `tag`       | string  | ❌       | `latest` | Image tag                      |
-| `tlsVerify` | boolean | ❌       | `true`   | Verify TLS when pulling        |
+| Field       | Type    | Required | Default  | Description             |
+| ----------- | ------- | -------- | -------- | ----------------------- |
+| `image`     | string  | ✅       | —        | Full image name         |
+| `tag`       | string  | ❌       | `latest` | Image tag               |
+| `tlsVerify` | boolean | ❌       | `true`   | Verify TLS when pulling |
 
 #### `GET /api/images`
 
@@ -142,15 +147,15 @@ curl -X POST http://localhost:3000/api/deploy \
   }'
 ```
 
-| Field          | Type     | Required | Default  | Description                        |
-|----------------|----------|----------|----------|------------------------------------|
-| `image`        | string   | ✅       | —        | Full image name                    |
-| `name`         | string   | ❌       | —        | Container name                     |
-| `tag`          | string   | ❌       | `latest` | Image tag                          |
-| `command`      | string[] | ❌       | —        | Override container command          |
+| Field          | Type     | Required | Default  | Description                                 |
+| -------------- | -------- | -------- | -------- | ------------------------------------------- |
+| `image`        | string   | ✅       | —        | Full image name                             |
+| `name`         | string   | ❌       | —        | Container name                              |
+| `tag`          | string   | ❌       | `latest` | Image tag                                   |
+| `command`      | string[] | ❌       | —        | Override container command                  |
 | `portMappings` | array    | ❌       | —        | Port mappings (`hostPort`, `containerPort`) |
-| `environment`  | object   | ❌       | —        | Environment variables              |
-| `labels`       | object   | ❌       | —        | Container labels                   |
+| `environment`  | object   | ❌       | —        | Environment variables                       |
+| `labels`       | object   | ❌       | —        | Container labels                            |
 
 #### `GET /api/containers`
 
@@ -180,9 +185,9 @@ curl http://localhost:3000/api/containers/my-nginx/logs
 curl http://localhost:3000/api/containers/my-nginx/logs?tail=50
 ```
 
-| Query Param | Type   | Default | Description              |
-|-------------|--------|---------|--------------------------|
-| `tail`      | number | `100`   | Number of log lines      |
+| Query Param | Type   | Default | Description         |
+| ----------- | ------ | ------- | ------------------- |
+| `tail`      | number | `100`   | Number of log lines |
 
 #### `GET /api/containers/:id/stats`
 
@@ -240,9 +245,7 @@ curl http://localhost:3000/api/routes
 
 ```json
 {
-  "routes": [
-    { "id": 1, "route": "/app", "container": "my-nginx", "port": 8080 }
-  ]
+  "routes": [{ "id": 1, "route": "/app", "container": "my-nginx", "port": 8080 }]
 }
 ```
 
@@ -256,11 +259,11 @@ curl -X POST http://localhost:3000/api/routes \
   -d '{"route": "/app", "container": "my-nginx", "port": 8080}'
 ```
 
-| Field       | Type   | Required | Description                  |
-|-------------|--------|----------|------------------------------|
-| `route`     | string | ✅       | URL path to map              |
-| `container` | string | ✅       | Container name or ID         |
-| `port`      | number | ✅       | Port the container listens on|
+| Field       | Type   | Required | Description                   |
+| ----------- | ------ | -------- | ----------------------------- |
+| `route`     | string | ✅       | URL path to map               |
+| `container` | string | ✅       | Container name or ID          |
+| `port`      | number | ✅       | Port the container listens on |
 
 #### `DELETE /api/routes/:id`
 
@@ -309,10 +312,10 @@ curl -X POST http://localhost:3000/api/prune
 
 ## Scripts
 
-| Command          | Description                              |
-|------------------|------------------------------------------|
-| `bun run dev`    | Start dev server with hot reload         |
-| `bun run build`  | Compile to standalone Linux binary       |
-| `bun run start`  | Run the compiled binary                  |
-| `bun run lint`   | Lint with oxlint                         |
-| `bun run format` | Format with oxfmt                        |
+| Command          | Description                        |
+| ---------------- | ---------------------------------- |
+| `bun run dev`    | Start dev server with hot reload   |
+| `bun run build`  | Compile to standalone Linux binary |
+| `bun run start`  | Run the compiled binary            |
+| `bun run lint`   | Lint with oxlint                   |
+| `bun run format` | Format with oxfmt                  |

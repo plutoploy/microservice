@@ -116,7 +116,7 @@ deployRoutes.post("/deploy", async (c) => {
 
     await container.start();
 
-    const inspect = await container.inspect() as any;
+    const inspect = (await container.inspect()) as any;
 
     return c.json({
       message: "Container deployed successfully",
@@ -311,7 +311,11 @@ deployRoutes.post("/routes", async (c) => {
       return c.json({ error: "route, container, and port are required" }, 400);
     }
 
-    db.run("INSERT INTO routes (route, container, port) VALUES (?, ?, ?)", [route, container, port]);
+    db.run("INSERT INTO routes (route, container, port) VALUES (?, ?, ?)", [
+      route,
+      container,
+      port,
+    ]);
 
     return c.json({ message: "Route added", route, container, port });
   } catch (error) {
@@ -379,4 +383,3 @@ deployRoutes.post("/prune", async (c) => {
 });
 
 export { deployRoutes };
-
