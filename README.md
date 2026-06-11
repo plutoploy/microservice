@@ -3,7 +3,7 @@
 A container deployment platform backend built with [Hono](https://hono.dev) + [Bun](https://bun.sh), wrapping [Podman](https://podman.io) via [`@pratyay360/podman-ts`](https://mintlify.wiki/Pratyay360/podman-ts).
 
 ## Prerequisites
-
+podman system service --time=0 &
 - [Bun](https://bun.sh) (latest)
 - [Podman](https://podman.io) with the socket enabled:
   ```bash
